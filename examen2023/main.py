@@ -43,6 +43,3 @@ class FireWeapon(Weapon):
 
 pistolet = Weapon("USA", "DesertEagle")
 sniper = FireWeapon("France", "2000m", "45mm")
-print(pistolet)
-print(sniper)
-print(Weapon.find_id(2))

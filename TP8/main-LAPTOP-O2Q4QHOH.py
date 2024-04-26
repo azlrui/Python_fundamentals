@@ -1,7 +1,5 @@
-import json
 import urllib.parse
 import urllib.request
-import datetime
 
 from dotenv import dotenv_values
 
@@ -21,28 +19,17 @@ from dotenv import dotenv_values
 
 config = dotenv_values()
 print(config['API_MDB'])
-print(type(config['API_MDB']))
 
-query = input("Quel film aimeriez-vous regarder?")
+params = urllib.parse.urlencode({"query": "titanic"})
 
-params = urllib.parse.urlencode({"api_key": config['API_MDB'], "query": query})
+result = urllib.request.urlopen(f"https://api.themoviedb.org/3/search/movie?api_key={config['API_MDB']}{params}")
 
-result = urllib.request.urlopen(f"https://api.themoviedb.org/3/search/movie?{params}")
+print(result)
 
-json_content = json.load(result)
 
-json_results = json_content['results'][:5]
 
-for indice, element in enumerate(json_results):
-    print(
-        f'{indice+1}:{element['original_title']} ({datetime.datetime.strptime(element['release_date'], "%Y-%m-%d") if element['release_date'] != "" else ""})')
 
-user_selection = int(input("Please introduce the index of your chosen movie"))
-
-print(3*"loading...\n")
-
-print(json_results[user_selection])
-
+print()
 
 
 

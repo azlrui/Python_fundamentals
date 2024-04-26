@@ -1,0 +1,24 @@
+{
+  "produits": [
+    {
+      "nom classe": "Produits",
+      "nom": "Sauce",
+      "prix": 6.0,
+      "donnee migros": 10
+    },
+    {
+      "nom classe": "ProduitsFrais",
+      "nom": "Saumon",
+      "prix": 10.0,
+      "donnee migros": 6,
+      "date": 2
+    },
+    {
+      "nom classe": "ProduitsFrais",
+      "nom": "Pain",
+      "prix": 3.0,
+      "donnee migros": 2,
+      "date": 1
+    }
+  ]
+}

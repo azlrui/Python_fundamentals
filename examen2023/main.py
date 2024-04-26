@@ -1,38 +1,37 @@
+
 if not __name__ == "__main__":
     exit(0)
-
-
 class Weapon:
-    _id = 0
-    _register = {}
+    __id = 0
+    __register = {}
 
     @classmethod
     def obtain_id(cls) -> int:
-        cls._id = cls._id + 1
-        return cls._id
+        cls.__id = cls.__id + 1
+        return cls.__id
 
     @classmethod
     def update_register(cls, id: int, object: object) -> None:
-        cls._register[id] = object
+        cls.__register[id] = object
 
     @classmethod
     def find_id(cls, id: int) -> object:
         try:
-            return cls._register[id]
+            return cls.__register[id]
         except:
             return None
 
     def __init__(self, origin: str, model: str):
         self.origin = origin
         self.model = model
-        self._id = Weapon.obtain_id()
-        Weapon.update_register(self._id, self)
+        self.__id = Weapon.obtain_id()
+        Weapon.update_register(self.__id, self)
 
     def get_id(self) -> int:
-        return self._id
+        return self.__id
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.origin},{self.model},{self._id})"
+        return f"{self.__class__.__name__}({self.origin},{self.model},{self.__id})"
 
 
 class FireWeapon(Weapon):

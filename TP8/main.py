@@ -2,6 +2,7 @@ import json
 import urllib.parse
 import urllib.request
 import datetime
+import googlemaps
 
 from dotenv import dotenv_values
 
@@ -20,33 +21,70 @@ from dotenv import dotenv_values
 # 8. Optionnel : Sauvegarder l’affiche du film dans un fichier
 
 config = dotenv_values()
-print(config['API_MDB'])
-print(type(config['API_MDB']))
-
-query = input("Quel film aimeriez-vous regarder?")
-
-params = urllib.parse.urlencode({"api_key": config['API_MDB'], "query": query})
-
-result = urllib.request.urlopen(f"https://api.themoviedb.org/3/search/movie?{params}")
-
-json_content = json.load(result)
-
-json_results = json_content['results'][:5]
-
-for indice, element in enumerate(json_results):
-    print(
-        f'{indice+1}:{element['original_title']} ({datetime.datetime.strptime(element['release_date'], "%Y-%m-%d") if element['release_date'] != "" else ""})')
-
-user_selection = int(input("Please introduce the index of your chosen movie"))
-
-print(3*"loading...\n")
-
-print(json_results[user_selection])
-
-
+# print(config['API_MDB'])
+# print(type(config['API_MDB']))
+#
+# query = input("Quel film aimeriez-vous regarder?")
+#
+# params = urllib.parse.urlencode({"api_key": config['API_MDB'], "query": query})
+#
+# result = urllib.request.urlopen(f"https://api.themoviedb.org/3/search/movie?{params}")
+#
+# json_content = json.load(result)
+#
+# json_results = json_content['results'][:5]
+#
+# for indice, element in enumerate(json_results):
+#     print(
+#         f'{indice+1}:{element['original_title']} ({datetime.datetime.strptime(element['release_date'], "%Y-%m-%d") if element['release_date'] != "" else ""})')
+#
+# user_selection = int(input("Please introduce the index of your chosen movie"))
+#
+# print(3*"loading...\n")
+#
+# print(json_results[user_selection])
 
 
+# Exercice 2
 
+def answer(res):
+    if res == "y":
+        return res
+    elif res == "n":
+        trip()
+    else:
+        answer(str(input(f"Can you please confirm by [Y/N] that you agree with this adress? \n {res}")))
+def trip():
+    API = googlemaps.Client(key=config['API_GOOGLE'])
+    ongoing = str(input("Veuillez introduire l'adresse de départ\n"))
+    answer(str(input(f"Can your confirme the adress [Y/N] :\n {ongoing}")))
+    ongoing = API.geocode(ongoing)
+    print(ongoing)
+
+    ongoing_address = ongoing[0]['formatted_address']
+    ongoing_lat = ongoing[0]['geometry']['location']['lat']
+    ongoing_lng = ongoing[0]['geometry']['location']['lng']
+    ongoing_ = (ongoing_lat, ongoing_lng)
+
+
+    arrival = str(input("Veuillez introduire l'adresse d'arrivée\n"))
+    answer(str(input(f"Can your confirme the adress [Y/N] :\n {arrival}")))
+
+    arrival = API.geocode(ongoing)
+    arrival_address = arrival[0]['formatted_address']
+
+    arrival_lat = arrival[0]['geometry']['location']['lat']
+    arrival_lng = arrival[0]['geometry']['location']['lng']
+    arrival_ = (arrival_lat, arrival_lng)
+
+    result = API.distance_matrix(ongoing_, arrival_)
+
+    return result
+
+
+print(trip())
+
+print()
 
 
 

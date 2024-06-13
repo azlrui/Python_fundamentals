@@ -45,44 +45,54 @@ config = dotenv_values()
 # print(json_results[user_selection])
 
 
-# Exercice 2
+# # Exercice 2
+#
+# def answer(res):
+#     if res == "y":
+#         return res
+#     elif res == "n":
+#         trip()
+#     else:
+#         answer(str(input(f"Can you please confirm by [Y/N] that you agree with this adress? \n {res}")))
+# def trip():
+#     API = googlemaps.Client(key=config['API_GOOGLE'])
+#     ongoing = str(input("Veuillez introduire l'adresse de départ\n"))
+#     answer(str(input(f"Can your confirme the adress [Y/N] :\n {ongoing}")))
+#     ongoing = API.geocode(ongoing, language = 'fr')
+#     print(ongoing)
+#
+#     ongoing_address = ongoing[0]['formatted_address']
+#     ongoing_lat = ongoing[0]['geometry']['location']['lat']
+#     ongoing_lng = ongoing[0]['geometry']['location']['lng']
+#     ongoing_ = (ongoing_lat, ongoing_lng)
+#
+#
+#     arrival = str(input("Veuillez introduire l'adresse d'arrivée\n"))
+#     answer(str(input(f"Can your confirme the adress [Y/N] :\n {arrival}")))
+#
+#     arrival = API.geocode(ongoing, language = 'fr')
+#     arrival_address = arrival[0]['formatted_address']
+#
+#     arrival_lat = arrival[0]['geometry']['location']['lat']
+#     arrival_lng = arrival[0]['geometry']['location']['lng']
+#     arrival_ = (arrival_lat, arrival_lng)
+#
+#     time = {}
+#
+#     for value in API.distance_matrix(ongoing_, arrival_)['rows']:
+#         print(value)
+#
+#     # for m in ['walking', 'transit', 'bicycling', 'driving']:
+#     #     time[m] = datetime.datetime.strptime(API.distance_matrix(ongoing_, arrival_, mode = m)['rows'][0]['duration']['text'], "%H hours %M minutes")
+#     #
+#     # return min(time)
 
-def answer(res):
-    if res == "y":
-        return res
-    elif res == "n":
-        trip()
-    else:
-        answer(str(input(f"Can you please confirm by [Y/N] that you agree with this adress? \n {res}")))
-def trip():
-    API = googlemaps.Client(key=config['API_GOOGLE'])
-    ongoing = str(input("Veuillez introduire l'adresse de départ\n"))
-    answer(str(input(f"Can your confirme the adress [Y/N] :\n {ongoing}")))
-    ongoing = API.geocode(ongoing)
-    print(ongoing)
-
-    ongoing_address = ongoing[0]['formatted_address']
-    ongoing_lat = ongoing[0]['geometry']['location']['lat']
-    ongoing_lng = ongoing[0]['geometry']['location']['lng']
-    ongoing_ = (ongoing_lat, ongoing_lng)
 
 
-    arrival = str(input("Veuillez introduire l'adresse d'arrivée\n"))
-    answer(str(input(f"Can your confirme the adress [Y/N] :\n {arrival}")))
+# Exercice 3
 
-    arrival = API.geocode(ongoing)
-    arrival_address = arrival[0]['formatted_address']
-
-    arrival_lat = arrival[0]['geometry']['location']['lat']
-    arrival_lng = arrival[0]['geometry']['location']['lng']
-    arrival_ = (arrival_lat, arrival_lng)
-
-    result = API.distance_matrix(ongoing_, arrival_)
-
-    return result
-
-
-print(trip())
+def weather(value):
+    params = urllib.parse.urlencode({"appid": config['API_WEATHER'], "id": value})
 
 print()
 

@@ -54,3 +54,7 @@ def indent(phrase, tab = "\t"):
     return tab.join(phrase)
 
 print(f"zero\n{indent(f"one\n{indent("two\nthree", "\t")}")}")
+
+out = ["avb", "axxx", "aasasd"]
+res = reduce(lambda x,y : x + y, [len(x) for x in out])
+print(res)

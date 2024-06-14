@@ -1,4 +1,4 @@
-var1: str = "ecopo"
+var1 : str = "ecopo"
 
 ma_fonction = lambda x: x / 2
 

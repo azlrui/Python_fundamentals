@@ -1,6 +1,6 @@
 class Product:
     __general_discount = 0
-    __time_expiration_date = 1
+    _time_expiration_date = 1
 
     @classmethod
     def set_general_discount(cls, value):
@@ -41,7 +41,7 @@ class Product:
             return ValueError
 
     def set_reduction(self, value):
-        self.__reduction = value
+        self.__discount = float(value)
 
     def get_initial_price(self):
         return f"{self.__price}"
@@ -49,12 +49,12 @@ class Product:
     def get_final_price(self):
         return f"{self.__price * (1-self.__discount/100) * (1-self.__class__.__general_discount/100)}"
 
-    def is_expired(self, value):
-        if value < self.__last_date:
+    def is_expired(self, date):
+        if date < self.__last_date:
             return True
 
-    def is_soon_expired(self):
-        if self.__last_date - self.__class__.__time_expiration_date < 0:
+    def is_soon_expired(self, date):
+        if self.__last_date - date < self.__class__._time_expiration_date:
             return True
 
     def __str__(self):
@@ -73,11 +73,12 @@ class Hypermarket:
         else :
             raise ValueError("On ne peut ajouter que des produits")
 
-    def update(self, value):
-        self.__products = [product for product in self.__products if product.is_expired(value)]
+    def update(self, date):
+        self.__products = [product for product in self.__products if product.is_expired(date)]
         for product in self.__products:
-            if product.is_soon_expired():
+            if product.is_soon_expired(date):
                 product.set_reduction(50)
+
     def __str__(self):
         return f"[Hypermarket]\n {"\n ".join([ f"-{product}" for product in self.__products])}"
 
@@ -95,11 +96,11 @@ class FreshProduct(Product):
 
 if __name__ == "__main__":
     rayon = Hypermarket()
-    pf = FreshProduct("Saumon", 10.0, 6, 2)
+    pf = FreshProduct("Saumon", 10.0, 0,6, 2)
     print(pf)
-    rayon.add_product(FreshProduct("Saumon", 10.0, 6, 2))  # la réduction pour le saumon devrait apparaître dès le jour 3
-    rayon.add_product(FreshProduct("Pain", 3.0, 2, 1))
-    rayon.add_product(FreshProduct("Sauce", 6.0, 10))
+    rayon.add_product(FreshProduct("Saumon", 10.0, 0,6, 2))  # la réduction pour le saumon devrait apparaître dès le jour 3
+    rayon.add_product(FreshProduct("Pain", 3.0, 0,2, 1))
+    rayon.add_product(FreshProduct("Sauce", 6.0, 0,10))
     print(rayon)
     print()
     for date in range(12):

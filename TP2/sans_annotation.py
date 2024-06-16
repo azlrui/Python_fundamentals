@@ -4,22 +4,22 @@ ma_fonction = lambda x: x / 2
 
 autre_fonction = lambda y: y + 1
 
-ma_liste = ["j'aime", "les", "annotations", "de", "type"]
+ma_liste : list[str] = ["j'aime", "les", "annotations", "de", "type"]
 
-autre_liste = [1, 2, 3, 4, 5, 6]
+autre_liste : list[int] = [1, 2, 3, 4, 5, 6]
 
-mon_dico = {1: "un", 2: "deux", 3: "trois", 4: "quatre"}
+mon_dico : dict[int, str]= {1: "un", 2: "deux", 3: "trois", 4: "quatre"}
 
-autre_dico = {"premier": [1, 2, 3], 2: {"cle": "valeur"}}
+autre_dico dict[str, int] = {"premier": [1, 2, 3], 2: {"cle": "valeur"}}
 
-def remplacer_espace(texte, nouveau_charactere):
+def remplacer_espace(texte : str, nouveau_charactere : str) -> str:
     temp_texte = texte.split(" ")
     nouveau_texte = nouveau_charactere.join(temp_texte)
     return nouveau_texte
 
 
 # f1 et f2 doivent être des fonctions, n doit être un parameter qui les correspondent
-def mon_enchaineur(f1, f2, n):
+def mon_enchaineur(f1 : object, f2 : object, n : int):
     return f1(f2(n))
 
 enchaine = mon_enchaineur(ma_fonction, autre_fonction, 2)
@@ -27,7 +27,7 @@ print(enchaine)  # devrait valoir 1.5
 
 
 # x et n doivent être des nombres
-def multiplicateur(n):
+def multiplicateur(n : int):
     def mult(x):
         return x * n
     return mult

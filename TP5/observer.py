@@ -1,54 +1,58 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
-
-class Observer:
-    def notify_action(self):
-        return NotImplemented
-
-class Observable:
+def check_type(type1, type2):
+    if not isinstance(type1,type2):
+        raise TypeError
+class Observer(ABC):
+    @abstractmethod
     def __init__(self):
-        self.__observateurs = []
+        pass
 
-    def ajouter_observer(self, observateur: Observer)-> None:
-        self.__observateurs.append(observateur)
-
-    def retirer_observer(self, observateur: Observer)-> None:
-        self.__observateurs.remove(observateur)
-
-    def notifyAll(self,action:str) -> None:
-        for i in self.__observateurs:
-            i.notify_action(action)
+    def notify(self):
+        pass
 
 class Tabloid(Observer):
-    def __init__(self, name: str):
-        self.__name = name
-
-    def notify_action(self, news:str) -> str:
-        print(f"[{self.__name}] Scoop! {news}")
-
-class Individu(Observable):
-    def __init__(self, prenom: str, nom: str):
-        super().__init__()
-        self.__prenom = prenom
+    def __init__(self, nom : str):
+        check_type(nom, str)
         self.__nom = nom
 
-    def epouse(self):
-        self.notifyAll('Je me marie ! (' + self.__prenom + ' ' + self.__nom + ')')
+    def notify(self, message):
+        return f"[{self.__nom}] Scoop! " + message
 
+class Observable(Observer):
+    def __init__(self):
+        self.__followers = []
+
+    def add_observer(self, observer):
+        check_type(observer, Observer)
+        self.__followers.append(observer)
+
+    def remove_observer(self, observer):
+        check_type(observer, Observer)
+        self.__followers.pop(observer)
+
+    def notify_all(self, message):
+        return "\n".join([x.notify(message) for x in self.__followers])
+
+class Individu(Observable):
+    def __init__(self, nom: str, prenom:str):
+        super().__init__()
+        for value in [nom, prenom]:
+            check_type(value, str)
+        self.__lastname = nom
+        self.__firstname = prenom
+
+    def marry(self):
+        return self.notify_all(f"Je me marie ! ({self.__firstname} {self.__lastname})")
 
 if __name__ == "__main__":
     robin = Individu('Scherbatsky', 'Robin')
-
-    # Public et Sun veulent être notifié lorsqu'un évènement important survient dans la vie de Robin Scherbatsky
     public = Tabloid('Public')
     sun = Tabloid('Sun')
-
-    # Pour rappel, Individu doit hériter d'Observable
-    # Les magazines Public et Sun doivent suivre Robin Scherbatsky pour pouvoir être notifiés
-    robin.ajouter_observer(public)
-    robin.ajouter_observer(sun)
-
+    robin.add_observer(public)
+    robin.add_observer(sun)
     # Lorsque Robin se marie, tous les tabloids qui le suivent sont notifiés
-    robin.epouse()
+    print(robin.marry())
+    ted = Individu('Ted', 'Mosby')
+    ted.add_observer(sun)
+    print(ted.marry())

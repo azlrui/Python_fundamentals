@@ -1,33 +1,26 @@
-class ConfigSingleton:
-    _instance = None
-    _dico = {}
+class ConfigurationSingleton:
+    __isintance = None
 
-    # private
     def __init__(self):
-        raise RuntimeError("It's a Singleton! Use get_instance() instead")
+        self.__dic = {}
 
+    def set_value(self, key, value):
+        self.__dic[key] = value
     @classmethod
     def get_instance(cls):
-        if cls._instance is None:
-            cls._instance = cls.__new__(cls)
+        if cls.__isintance is None:
+            cls.__isintance = ConfigurationSingleton()
 
-        return cls._instance
+        return cls.__isintance
 
-    @classmethod
-    def add_value(cls, key: str, value) -> dict:
-        cls._dico[key] = value
+    def get_value(self, key):
+        return self.__dic[key]
 
-        return cls._dico
+if __name__ == '__main__':
+    conf = ConfigurationSingleton.get_instance()
+    conf.set_value('verbose', True)
 
-    @classmethod
-    def search_key(cls, key: str):
-        print(cls._dico[key])
+    conf2 = ConfigurationSingleton.get_instance()
 
-
-c2 = ConfigSingleton.get_instance()
-c3 = ConfigSingleton.get_instance()
-
-print(c2 == c3)
-
-c3.add_value("Prénom", "Rui")
-c3.search_key("Prénom")
+    print(conf.get_value('verbose'), conf2.get_value('verbose'))
+    print(hex(id(conf)), hex(id(conf2)))  # L’adresse mémoire est la meme pour les deux objets

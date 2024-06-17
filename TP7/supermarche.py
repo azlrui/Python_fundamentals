@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Union
 
-import json
+
 class Produit(ABC):
     __reduction_generale = 0  # en %
     _delai_expiration_reduction = 1  # en jours

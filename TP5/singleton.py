@@ -1,3 +1,6 @@
+import copy
+
+
 class ConfigurationSingleton:
     __isintance = None
 
@@ -15,6 +18,12 @@ class ConfigurationSingleton:
 
     def get_value(self, key):
         return self.__dic[key]
+
+class MaClasse:
+    def __init__(self, x):
+            self.x = x
+    def __repr__(self):
+        return str(self.x)
 
 if __name__ == '__main__':
     conf = ConfigurationSingleton.get_instance()

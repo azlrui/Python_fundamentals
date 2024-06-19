@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<articles>
+	<article>
+		<name>Pelle</name>
+		<price currency="EUR">45</price>
+	</article>
+	<article>
+		<name>Chaux</name>
+		<price currency="CHF">25</price>
+	</article>
+</articles>

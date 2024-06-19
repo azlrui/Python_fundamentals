@@ -72,6 +72,23 @@ def question4(file):
         notes.append(float(e.text))
     return round(mean(notes),2)
 
+def question_slides(file):
+    tree = et.parse(file)
+    root = tree.getroot()
+    prices = list()
+
+    for e in root.findall("article"):
+        price_e = e.find("price")
+        price_e_value = price_e.text
+        attrib_price_e = price_e.attrib
+
+        if attrib_price_e['currency'] == "EUR":
+            prices.append(float(price_e_value) * 1.02)
+        else :
+            prices.append(float(price_e_value))
+
+        return sum(prices)
+
 if __name__ == "__main__":
     question1("sample.txt", "ISO8859-1")
     dico_admin = question2("etudiants_admin.csv")
@@ -79,3 +96,4 @@ if __name__ == "__main__":
     create_csv(dico_joint(dico_noms, dico_admin))
     print(question3("produits.json"))
     print(question4("notes.xml"))
+    print(question_slides("ticket.xml"))
